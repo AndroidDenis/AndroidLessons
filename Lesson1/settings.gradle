@@ -14,3 +14,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Lesson1"
 include ':app'
+include ':task4'
+include ':control_lesson1'
+include ':task5'
+include ':buttonclicker'
