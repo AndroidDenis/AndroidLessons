@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener oclBtnWhoAmI = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tvOut.setText("Мой номер по списку No Х");
+                tvOut.setText("Мой номер по списку No 29");
                 checkBox.setChecked(true);
             }
         };
