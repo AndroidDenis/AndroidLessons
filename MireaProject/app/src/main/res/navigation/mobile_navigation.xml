@@ -32,4 +32,14 @@
         android:name="ru.mirea.schukind.d.e.mireaproject.WebViewFragment"
         android:label="fragment_web_view"
         tools:layout="@layout/fragment_web_view" />
+    <fragment
+        android:id="@+id/sensorFragment"
+        android:name="ru.mirea.schukind.d.e.mireaproject.SensorFragment"
+        android:label="fragment_sensor"
+        tools:layout="@layout/fragment_sensor" />
+    <fragment
+        android:id="@+id/audioFragment"
+        android:name="ru.mirea.schukind.d.e.mireaproject.AudioFragment"
+        android:label="fragment_audio"
+        tools:layout="@layout/fragment_audio" />
 </navigation>

@@ -24,5 +24,13 @@
             android:id="@+id/webViewFragment"
             android:icon="@drawable/ic_launcher_web_foreground"
             android:title="webViewFragment" />
+        <item
+            android:id="@+id/sensorFragment"
+            android:icon="@drawable/ic_launcher_web_foreground"
+            android:title="Sensor" />
+        <item
+            android:id="@+id/audioFragment"
+            android:icon="@drawable/ic_launcher_web_foreground"
+            android:title="Audio" />
     </group>
 </menu>
