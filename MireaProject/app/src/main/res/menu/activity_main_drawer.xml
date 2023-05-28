@@ -36,5 +36,9 @@
             android:id="@+id/fileFragment"
             android:icon="@drawable/ic_launcher_foreground_file_foreground"
             android:title="File" />
+        <item
+            android:id="@+id/mapFragment"
+            android:icon="@drawable/ic_launcher_foreground_map_foreground"
+            android:title="Map" />
     </group>
 </menu>

@@ -47,4 +47,9 @@
         android:name="ru.mirea.schukind.d.e.mireaproject.FileFragment"
         android:label="fragment_file"
         tools:layout="@layout/fragment_file" />
+    <fragment
+        android:id="@+id/mapFragment"
+        android:name="ru.mirea.schukind.d.e.mireaproject.MapFragment"
+        android:label="fragment_map"
+        tools:layout="@layout/fragment_map" />
 </navigation>
