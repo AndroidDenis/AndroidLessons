@@ -37,5 +37,6 @@
     <string name="emailpassword_status_fmt">Email User: %1$s (verified:%2$b)</string>
     <string name="emailpassword_title_text">Email and Password</string>
     <string name="error_sign_in_failed">Sign in failed, see logs for de-tails.</string>
+    <string name="title_activity_open_map">OpenMapActivity</string>
 
 </resources>

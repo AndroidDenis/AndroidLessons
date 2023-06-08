@@ -1,6 +1,7 @@
 package ru.mirea.schukind.d.e.mireaproject;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -27,80 +29,52 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 import ru.mirea.schukind.d.e.mireaproject.databinding.FragmentMapBinding;
 import static com.yandex.runtime.Runtime.getApplicationContext;
 
-public class MapFragment extends Fragment {
-
-    private MapView mapView = null;
-    private final String MAPKIT_API_KEY = "e8fde506-f137-409d-ad2f-7b6f13ee9d28";
-    private FragmentMapBinding binding;
-
-    private MyLocationNewOverlay locationNewOverlay;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) { super.onCreate(savedInstanceState);
-        binding = FragmentMapBinding.inflate(getLayoutInflater());
-        mapView = binding.mapView;
-        return binding.getRoot();
-    }
-
+public class MapFragment extends Fragment implements View.OnClickListener{
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private String mParam1;
+    private String mParam2;
     public MapFragment() {
-        Configuration.getInstance().load(getApplicationContext(),
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        mapView = binding.mapView;
-        mapView.setZoomRounding(true);
-        mapView.setMultiTouchControls(true);
-        IMapController mapController = mapView.getController();
-        mapController.setZoom(15.0);
-        GeoPoint startPoint = new GeoPoint(55.794229, 37.700772);
-        mapController.setCenter(startPoint);
-
-        locationNewOverlay = new MyLocationNewOverlay(new
-                GpsMyLocationProvider(getApplicationContext()), mapView);
-        locationNewOverlay.enableMyLocation();
-        mapView.getOverlays().add(this.locationNewOverlay);
-
-        CompassOverlay compassOverlay = new CompassOverlay(getApplicationContext(), new
-                InternalCompassOrientationProvider(getApplicationContext()), mapView);
-        compassOverlay.enableCompass();
-        mapView.getOverlays().add(compassOverlay);
-
-        final Context context = this.getActivity().getApplicationContext();
-        final DisplayMetrics dm = context.getResources().getDisplayMetrics();
-        ScaleBarOverlay scaleBarOverlay = new ScaleBarOverlay(mapView);
-        scaleBarOverlay.setCentred(true);
-        scaleBarOverlay.setScaleBarOffset(dm.widthPixels / 2, 10);
-        mapView.getOverlays().add(this.locationNewOverlay);
-
-        Marker marker = new Marker(mapView);
-        marker.setPosition(new GeoPoint(55.794229, 37.700772));
-        marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-            public boolean onMarkerClick(Marker marker, org.osmdroid.views.MapView mapView) {
-                Toast.makeText(getApplicationContext(), "MIREA!",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-        mapView.getOverlays().add(scaleBarOverlay);
-        marker.setIcon(ResourcesCompat.getDrawable(getResources(), org.osmdroid.library.R.drawable.osm_ic_follow_me_on, null));
-        marker.setTitle("Title");
     }
+
+    public static MapFragment newInstance(String param1, String param2) {
+        MapFragment fragment = new MapFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
-    public void onResume() {
-        super.onResume();
-        Configuration.getInstance().load(getApplicationContext(),
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView != null) {
-            mapView.onResume();
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
     @Override
-    public void onPause() {
-        super.onPause();
-        Configuration.getInstance().save(getApplicationContext(),
-                PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-        if (mapView != null) {
-            mapView.onPause();
-        }
+    public void onStop(){
+        super.onStop();
+    }
+    @Override
+    public void onStart(){
+        super.onStart();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.fragment_map, container, false);
+        Button openMapButton = root.findViewById(R.id.button);
+        openMapButton.setOnClickListener(this);
+        return root;
+    }
 
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(getActivity(), OpenMapActivity.class);
+        startActivity(intent);
+    }
 }
