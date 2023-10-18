@@ -1,11 +1,13 @@
 package ru.mirea.schukind.d.e.mireaproject;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.provider.Settings;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -43,117 +45,132 @@ public class Authentication extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+// [START initialize_auth] Initialize Firebase Auth
         LogIn = FirebaseAuth.getInstance();
-
-        binding.emailSignInButton.setOnClickListener(new View.OnClickListener() {
+        @SuppressLint("HardwareIds")
+        String m_androidId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        System.out.println("Individual Code "+m_androidId);
+        binding.textID.setText(m_androidId);
+        binding.signedInButtons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = binding.fieldEmail.getText().toString();
-                String password = binding.fieldPassword.getText().toString();
-                signIn(email, password);
+                String email = String.valueOf(binding.emailPasswordFields.getText());
+                String password = String.valueOf(binding.passEdit.getText());
+                signIn(email, password, v);
             }
         });
-        binding.emailCreateAccountButton.setOnClickListener(new View.OnClickListener() {
+        binding.emailPasswordButtons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = binding.fieldEmail.getText().toString();
-                String password = binding.fieldPassword.getText().toString();
-                createAccount(email, password);
+                String email = String.valueOf(binding.emailPasswordFields.getText());
+                String password = String.valueOf(binding.passEdit.getText());
+                createAccount(email, password, v);
             }
         });
-
+// [END initialize_auth]
     }
-
+    // [START on_start_check_user]
     @Override
     public void onStart() {
         super.onStart();
+// Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = LogIn.getCurrentUser();
         updateUI(currentUser);
     }
+    // [END on_start_check_user]
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+//            binding.textView.setText(getString(R.string.emailpassword_status_fmt,
+//                    user.getEmail(), user.isEmailVerified()));
+//            binding.textViewUID.setText(getString(R.string.firebase_status_fmt, user.getUid()));
+//            binding.emailPasswordButtons.setVisibility(View.GONE);
+//            binding.passEdit.setVisibility(View.GONE);
+//            binding.signedInButtons.setVisibility(View.GONE);
 
-    private void createAccount(String email, String password) {
-        Log.d(TAG, "createAccount:" + email);
-        if (!validateForm()) {
-            return;
+        } else {
+            binding.textView.setText(R.string.signed_out);
+            binding.textViewUID.setText(null);
+            binding.emailPasswordButtons.setVisibility(View.VISIBLE);
+            binding.passEdit.setVisibility(View.VISIBLE);
+            binding.signedInButtons.setVisibility(View.VISIBLE);
         }
+    }
 
+    private void createAccount(String email, String password, View v) {
+        Log.d(TAG, "createAccount:" + email);
+//        if (!validateForm()) {
+//            return;
+//        }
+// [START create_user_with_email]
         LogIn.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+// Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = LogIn.getCurrentUser();
                             updateUI(user);
+                            goSystem(v);
                         } else {
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+// If sign in fails, display a message to the user.
+
+                            Log.w(TAG, "createUserWithEmail:failure",
+
+                                    task.getException());
+                            Toast.makeText(Authentication.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
-
                     }
                 });
+// [END create_user_with_email]
     }
 
-    private void signIn(String email, String password) {
+
+    private void signIn(String email, String password, View v) {
         Log.d(TAG, "signIn:" + email);
+// [START sign_in_with_email]
         LogIn.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+// Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = LogIn.getCurrentUser();
                             updateUI(user);
+                            goSystem(v);
                         } else {
+// If sign in fails, display a message to the user.
+
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(Authentication.this, "Authentication  failed.",
+
+                            Toast.makeText(Authentication.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
+// [START_EXCLUDE]
+
                         if (!task.isSuccessful()) {
-                            binding.status.setText(R.string.auth_failed);
+
+                            binding.textView.setText(R.string.auth_failed);
                         }
+
+// [END_EXCLUDE]
+
                     }
                 });
+// [END sign_in_with_email]
     }
 
-    private boolean validateForm() {
-        boolean valid = true;
-        String email = binding.fieldEmail.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            binding.fieldEmail.setError("Required.");
-            valid = false;
-        } else {
-            binding.fieldEmail.setError(null);
-        }
-
-        String password = binding.fieldPassword.getText().toString();
-        if (TextUtils.isEmpty(password)) {
-            binding.fieldPassword.setError("Required.");
-            valid = false;
-        } else {
-            binding.fieldPassword.setError(null);
-        }
-        return valid;
+    private void signOut() {
+        LogIn.signOut();
+        updateUI(null);
     }
 
-    private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            binding.status.setText(getString(R.string.emailpassword_status_fmt,user.getEmail(), user.isEmailVerified()));
-            binding.detail.setText(getString(R.string.firebase_status_fmt, user.getUid()));
-            binding.emailPasswordButtons.setVisibility(View.GONE);
-            binding.emailPasswordFields.setVisibility(View.GONE);
-            binding.signedInButtons.setVisibility(View.VISIBLE);
-            Intent intent = new Intent(Authentication.this, MainActivity.class);
-            startActivity(intent);
-        } else {
-            binding.status.setText(R.string.signed_out);
-            binding.detail.setText(null);
-            binding.emailPasswordButtons.setVisibility(View.VISIBLE);
-            binding.emailPasswordFields.setVisibility(View.VISIBLE);
-            binding.signedInButtons.setVisibility(View.GONE);
-        }
+    public void goSystem(View view) {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,125 +1,104 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_layout"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="4">
+    android:layout_height="wrap_content"
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="43dp"
-        android:layout_weight="3"
-        android:gravity="center_horizontal"
+        android:layout_height="410dp"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="270sp" />
+
+        <TextView
+            android:id="@+id/textID"
             android:layout_width="match_parent"
-            android:layout_height="183dp">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20sp"
+            android:gravity="center"
+            android:text="Аутентификация"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <TextView
-            android:id="@+id/titleText"
-            android:layout_width="152dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/emailpassword_title_text" />
+            android:layout_marginHorizontal="120sp"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/status"
-            android:layout_width="151dp"
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status" />
+            android:layout_marginHorizontal="20sp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/detail"
-            android:layout_width="151dp"
+            android:id="@+id/textViewUID"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Singed in" />
+            android:layout_marginHorizontal="20sp"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
 
     </LinearLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:paddingTop="16dp"
-        android:gravity="center_vertical">
+        android:layout_height="170sp"
+        android:layout_alignParentBottom="true"
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
+            android:layout_marginTop="30sp"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/fieldEmail"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/emailPasswordFields"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp" />
 
-        <EditText
-            android:id="@+id/fieldPassword"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            <EditText
+                android:id="@+id/passEdit"
+                android:layout_width="150sp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp" />
+        </LinearLayout>
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/emailPasswordFields"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="fieldEmail, fieldPassword"
-            tools:layout_editor_absoluteY="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:layout_marginTop="20sp"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/emailSignInButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:text="@string/sign_in"
-            app:layout_constraintEnd_toStartOf="@+id/guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fieldEmail" />
+            <Button
+                android:id="@+id/signedInButtons"
+                android:layout_width="152dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:backgroundTint="@color/purple_500"
+                android:hint="@string/sign_in" />
 
-        <Button
-            android:id="@+id/emailCreateAccountButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="@string/create_account"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/fieldPassword" />
+            <Button
+                android:id="@+id/emailPasswordButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="25sp"
+                android:backgroundTint="@color/purple_500"
+                android:hint="@string/create_account" />
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/emailPasswordButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:constraint_referenced_ids="emailCreateAccountButton, emailSignInButton"
-            tools:layout_editor_absoluteY="16dp" />
+        </LinearLayout>
+    </LinearLayout>
 
 
-        <androidx.constraintlayout.widget.Group
-            android:id="@+id/signedInButtons"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            tools:layout_editor_absoluteY="16dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</LinearLayout>
+</RelativeLayout>

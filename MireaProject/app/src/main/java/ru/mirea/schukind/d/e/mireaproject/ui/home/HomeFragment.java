@@ -80,11 +80,11 @@ public class HomeFragment extends Fragment {
     }
 
     private void saveSecureData() {
-        secureSharedPreferences.edit().putString("secure", "Добро пожаловать").apply();
+        secureSharedPreferences.edit().putString("secure", "Приветствую!").apply();
     }
 
     private void loadSecureData(View view) {
-        poetName = secureSharedPreferences.getString("secure", "Добро пожаловать");
+        poetName = secureSharedPreferences.getString("secure", "Приветствую!");
         poetNameView = view.findViewById(R.id.poet_name_view);
         poetNameView.setText(poetName);
         poetPhotoView = view.findViewById(R.id.poet_photo_view);
