@@ -52,4 +52,14 @@
         android:name="ru.mirea.schukind.d.e.mireaproject.MapFragment"
         android:label="fragment_map"
         tools:layout="@layout/fragment_map" />
+    <fragment
+        android:id="@+id/lockFragment"
+        android:name="ru.mirea.schukind.d.e.mireaproject.LockFragment"
+        android:label="fragment_lock"
+        tools:layout="@layout/fragment_lock" />
+    <fragment
+        android:id="@+id/appFragment"
+        android:name="ru.mirea.schukind.d.e.mireaproject.AppFragment"
+        android:label="fragment_app"
+        tools:layout="@layout/fragment_app" />
 </navigation>
